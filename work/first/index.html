@@ -70,15 +70,67 @@
 <script src="../../common/js/jquery.js"></script>
 <script>
 // 第1問  id='q1'の要素の文字色を赤色にせよ。
+$("#q1").css("color","red");//q1を選択してcssメソッドによりcolorをredに変更
 // 第2問  id='q2'の要素をクリックしたら背景色をピンクにせよ。
+$("#q2").click(function(){//q2を選択してclickメソッドにより関数を実行する
+  $("#q2").css("background-color","pink");//q2を選択して背景をピンクに変更
+});
 // 第3問  id='q3'の要素をクリックしたら2秒かけてフェードアウトさせよ。
+$("#q3").click(function(){//q3を選択してclickメソッドにより関数を実行する
+  $("#q3").fadeOut(2000);//q3を選択しfadeOutメソッドに引数として2000を渡すと2000nsかけてフェードアウトする
+});
 // 第4問  id='q4'の要素をクリックしたらこの要素の前後とこの要素内の前後にテキストを挿入せよ。
+var q4 = $("#q4");//DOMを複数検索しなくて良いように変数q4に格納
+q4.on("click", function(){//ここでonメソッドを使う意味はあまりないかもしれないが理解を深める為に使用
+  q4.after("DOMの後");//afterメソッドは指定した要素の後にコンテンツを追加するもの
+  q4.before("DOMの前");//beforメソッドは指定した要素の前にコンテンツを追加するもの
+  q4.append("DOMの中の後");//appendメソッドは指定した要素内の後にコンテンツを追加するもの
+  q4.prepend("DOMの中の前");//prependメソッドは指定した要素内の前にコンテンツを追加するもの
+  //ここで、DOMというのはhtmlの階層構造においてのid=q4の要素の事を指す。
+});
 // 第5問  id='q5'の要素をクリックしたらこの要素にlargeというクラスを付与せよ。
+var q5 = $("#q5");//DOMを検索しid=q5を走査
+q5.on("click", function(){//onメソッドのイベントにclickを設定
+  q5.addClass("large");//id=q5にaddClassメソッドによりlargeクラスを追加
+});
 // 第6問  id='q6'の要素をクリックしたらこの要素を2秒かけてmargin-topとmargin-leftを100pxの位置に移動させよ。
+var q6 = $("#q6");//id=q6を変数に格納
+var marginObj = {
+  marginTop:100,//cssでの-はキャメルケースにする必要がある
+  marginLeft:100,//それぞれ値を１００に設定する。この時単位は不要
+}
+q6.on("click", function(){
+  q6.animate(marginObj,2000);//animateは変更したいcss属性をobjectオブジェクトで指定する必要がある。また、期間の単位はnsで初期値は400である。
+});
 // 第7問  id='q7'の子要素をクリックしたら、その要素のインデックス（何番目か）をconsole.log()とalert()を用いて表示させよ。
+var q7 = $("#q7>li");//クリックした要素を詳細に知る必要があるのでq7の子要素liを走査
+q7.on("click", function(){
+  var myIndex = q7.index(this);//myIndexに現在クリックした要素のインデックスを格納
+  console.log(myIndex + 1 + "番目の要素です");//index番号は0から始まるので1を足す必要あり
+  alert(myIndex + 1　+ "番目の要素です");
+});
 // 第8問  id='q8'の要素をhoverしたらlargeというクラスを付与し、hoverが外れたら、クラスを削除せよ。
+var q8 = $("#q8");
+var hoverEvent = {};//空のオブジェクトを作成
+hoverEvent.mouseenter = function(){//マウスが入った時の動作
+  q8.addClass("large");//クラスを追加する
+};
+hoverEvent.mouseleave = function(){//マウスが出た時の動作
+  q8.removeClass("large");//クラスを外す
+};
+q8.on(hoverEvent)//onメソッドにhoverイベントは設定できないのでマウスが離れた時と入った時の2つのイベントを設定する。この時のイベントをオブジェクトにまとめておく。
+
 // 第9問  id='q9'の要素をクリックしたらこの要素に設定してあるdata属性をconsoleに表示せよ。
+var q9 = $("#q9");
+q9.on("click", function(){
+  console.log(q9.data());//dataメソッドによりq9に設定してあるdeta属性を取得
+})
 // 第10問 id='q10'の子要素をクリックしたら、その要素のインデックスと等しいid='q11'の子要素にlargeというクラスを追加せよ。
+var q10 = $("#q10>li");
+q10.on("click", function(){
+  var q10Index = q10.index(this);//先にq10のクリックされたindex番号を取得
+  $("#q11 > li").eq(q10Index).addClass("large");//index番号を元にq11の要素を選択しクラスをついかする。
+});
 </script>
 </body>
 </html>
