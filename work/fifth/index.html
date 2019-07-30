@@ -88,6 +88,33 @@
       // selectボックスをクリックして言語を選び、その言語と関係のあるリストだけが表示されるプログラムです。
       // [処理の流れ]
       // ・セレクトボックスをクリックする。
+      $(function(){
+        var $select = $("select");
+        var $list = $(".list");
+        var selectVal, listData;
+        $select.on("change", function(){
+          console.clear();//デバック
+          selectVal = $(this).val();//valueを代入
+          console.log(selectVal);//デバッグ
+          //ここから分岐
+          if(selectVal == 'all'){//valueの値がallの時
+            $list.find("li").show();//liを全て表示
+          }
+          else{//all以外の時
+            $list.find("li").each(function(index, element){
+              listData = $(this).data("category-type");//liのdata属性を取得
+              console.log(index);//デバック
+              console.log(listData);//デバック
+              //ここからさらに分岐
+              if(selectVal == listData){//valueとdataが同じなら
+                $(this).show();//liを表示
+              }else{//そうでないなら
+                $(this).hide();//隠す
+              }
+            });
+          };
+        });
+      });
       // ・セレクトボックスのvalueとliのdata-category-typeが一致しているものをだけ表示させる。
       // ・Allを選択した場合のみ全てのliを表示させる。
       // [使うメソッド]
