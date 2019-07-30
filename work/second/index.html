@@ -22,10 +22,21 @@
     <script src="../../common/js/jquery.js"></script>
     <script>
       // 今回やるのはモーダルです。
+      var modalShow = $(".modal-show");//modal-showクラスを取得
+      var modalClose = $(".modal-close");//modal-closeクラスを取得
+      var modal = $(".modal");//modalクラスを取得
       // .modal-show をクリックすることで .modal をfadeInさせる。
+      modalShow.on("click", function(){
+        modal.fadeIn();
+      });
       // .modal-close をクリックで .modal をfadeOutさせる。
+      modalClose.on("click", function(){
+        modal.fadeOut();
+      })
       // .click() クリック時のイベントを登録する。
+
       // .fadeIn() 一定時間かけてフェードインする。
+
       // .fadeOut() 一定時間かけてフェードアウトする。
     </script>
   </body>
