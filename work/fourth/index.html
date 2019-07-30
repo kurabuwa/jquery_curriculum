@@ -49,8 +49,8 @@
     <script>
       // 今回やるのはドロップメニューです。
       // メニューをhoverすると隠れている中のメニューが表示され、メニューから離れると中のメニューが非表示されるプログラムです。
-      var menu = $(".menu__list");
-      var menuChild = $(".menu__list__childList");
+      var $menu = $(".menu__list");
+      var $menuChild = $(".menu__list__childList");
       var hover = {};//onメソッドでhoverを実行する為のオブジェクト
       hover.mouseenter = function(){
         $(this).children("ul").stop().slideDown();//アニメーションの途中でカーソルが乗った時その前のアニメーションを止めてからすぐにslideDownする

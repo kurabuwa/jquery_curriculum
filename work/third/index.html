@@ -25,8 +25,8 @@
     <script src="../../common/js/jquery.js"></script>
     <script>
       // 今回やるのはタブメニューです。
-      var navList = $(".nav").find("li");
-      var contentsList = $(".contents").find("li");
+      var $navList = $(".nav").find("li");
+      var $contentsList = $(".contents").find("li");
       var tabIndex;
       // navの小要素であるliをクリックして、contents内の小要素であるli要素を表示させる。
       navList.on("click", function(){
