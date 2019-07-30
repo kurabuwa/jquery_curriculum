@@ -25,7 +25,17 @@
     <script src="../../common/js/jquery.js"></script>
     <script>
       // 今回やるのはタブメニューです。
+      var navList = $(".nav").find("li");
+      var contentsList = $(".contents").find("li");
+      var tabIndex;
       // navの小要素であるliをクリックして、contents内の小要素であるli要素を表示させる。
+      navList.on("click", function(){
+        tavIndex = $(this).index();//インデックス番号を取得
+        console.log(tavIndex);//デバック用
+        contentsList.addClass("is-hidden");//まず全部非表示にして
+        contentsList.eq(tavIndex).removeClass("is-hidden");//クリックしたインデックス番号と同じところを表示する
+
+      })
       // .index() 要素のindexを取得します。
       // .eq() 引数に応じたindexの要素を指定します。
       // .addClass() クラスを追加します。
@@ -33,4 +43,3 @@
     </script>
   </body>
 </html>
-
