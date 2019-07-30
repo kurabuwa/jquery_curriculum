@@ -22,6 +22,20 @@
     <script src="../../common/js/jquery.js"></script>
     <script>
       // 今回やるのは文字数チェッカーです。
+      $(function(){
+        var $input = $(".input");
+        var $count = $(".rest-count");
+        var length
+        $input.on("keyup", function(){
+          length = $(this).val().replace(/\s+/g,'').length//\sが改行やタブなどの特殊文字で+によって複数検出可能
+          $count.text("30" - length);//textメソッドでresr-countのテキストを編集、その時３０ー文字数
+          if(length == 0){//文字数が0になった時
+            $count.removeClass("red");//redクラスを外し
+          }else if(length == -1){//文字数が-1になった時
+            $count.addClass("red");//redクラスを追加
+          }//境界だけで分岐させる事で処理の回数を減らす目的がある
+        });
+      });
       // .input に文字を入力し、文字を入力した段階でその文字数に応じて .rest-count の値が減っていき、最大文字数である30文字以上入力すると .rest-count に .red クラスが追加されて文字色が赤くなり、30文字以内になると、.red クラスが外れ、文字色が元に戻る。（ちなみに改行は文字数に含まない。）
       // .keyup() 文字入力後に発火されるイベントです。
       // .replace(/\s+/g,'').length 改行を含まない文字数を取得します。
@@ -29,4 +43,3 @@
     </script>
   </body>
 </html>
-
