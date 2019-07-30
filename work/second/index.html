@@ -22,17 +22,19 @@
     <script src="../../common/js/jquery.js"></script>
     <script>
       // 今回やるのはモーダルです。
-      var modalShow = $(".modal-show");//modal-showクラスを取得
-      var modalClose = $(".modal-close");//modal-closeクラスを取得
-      var modal = $(".modal");//modalクラスを取得
-      // .modal-show をクリックすることで .modal をfadeInさせる。
-      modalShow.on("click", function(){
-        modal.fadeIn();
+      $(function(){//readyメソッドと言われるものでready状態（DOMや画像などがまだ読み込み完了していない状態）で処理を開始する事ができるメソッド。これにより少ない待ち時間で処理を開始することができるようになる。
+        var modalShow = $(".modal-show");//modal-showクラスを取得
+        var modalClose = $(".modal-close");//modal-closeクラスを取得
+        var modal = $(".modal");//modalクラスを取得
+        // .modal-show をクリックすることで .modal をfadeInさせる。
+        modalShow.on("click", function(){
+          modal.fadeIn();
+        });
+        // .modal-close をクリックで .modal をfadeOutさせる。
+        modalClose.on("click", function(){
+          modal.fadeOut();
+        });
       });
-      // .modal-close をクリックで .modal をfadeOutさせる。
-      modalClose.on("click", function(){
-        modal.fadeOut();
-      })
       // .click() クリック時のイベントを登録する。
 
       // .fadeIn() 一定時間かけてフェードインする。
