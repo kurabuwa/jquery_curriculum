@@ -106,7 +106,8 @@
               console.log(index);//デバック
               console.log(listData);//デバック
               //ここからさらに分岐
-              if(selectVal == listData){//valueとdataが同じなら
+              if(selectVal === listData){//valueとdataが同じなら
+                //===は==と違い、型などの比較も行う
                 $(this).show();//liを表示
               }else{//そうでないなら
                 $(this).hide();//隠す

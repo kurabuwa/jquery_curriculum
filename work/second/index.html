@@ -22,7 +22,7 @@
     <script src="../../common/js/jquery.js"></script>
     <script>
       // 今回やるのはモーダルです。
-      $(function(){//readyメソッドと言われるものでready状態（DOMや画像などがまだ読み込み完了していない状態）で処理を開始する事ができるメソッド。これにより少ない待ち時間で処理を開始することができるようになる。
+      $(function(){//readyメソッドと言われるものでready状態（DOMツリーが完成したタイミング）で処理を開始する事ができるメソッド。これにより少ない待ち時間で処理を開始することができるようになる。また、画像は読み込まれないので注意が必要
         var modalShow = $(".modal-show");//modal-showクラスを取得
         var modalClose = $(".modal-close");//modal-closeクラスを取得
         var modal = $(".modal");//modalクラスを取得
