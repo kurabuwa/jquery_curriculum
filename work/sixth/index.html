@@ -25,13 +25,13 @@
       $(function(){
         var $input = $(".input");
         var $count = $(".rest-count");
-        var length
+        var length, maxLen = 30;
         $input.on("keyup", function(){
           length = $(this).val().replace(/\s+/g,'').length//\sが改行やタブなどの特殊文字で+によって複数検出可能
-          $count.text("30" - length);//textメソッドでresr-countのテキストを編集、その時３０ー文字数
-          if(length <= 30){//文字数が30以上の時
+          $count.text(maxLen - length);//textメソッドでresr-countのテキストを編集、その時３０ー文字数
+          if(length <= maxLen){//文字数が30以上の時
             $count.removeClass("red");//redクラスを外し
-          }else if(length >= 30){//文字数が30以下になった時
+          }else if(length >= maxLen){//文字数が30以下になった時
             $count.addClass("red");//redクラスを追加
           }
         });
