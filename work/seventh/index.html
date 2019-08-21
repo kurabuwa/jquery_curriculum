@@ -44,7 +44,7 @@
           clickData = $(this).data("ctrl");//クリックしたボタンの属性を格納
           console.log(clickData);//デバック
           if(clickData === "next"){//deta属性がnextならば
-            if(numData < 3){//添字が２以下ならば
+            if(numData <= length){//添字が写真の枚数以下ならば
               numData++;//添字を１つ増やし
             }else{//そうでないなら
               numData = 0;//添字を0にする
@@ -55,7 +55,7 @@
             if(numData > 0){//添字が１以上ならば
               numData--;//添字を減らす
             }else{//そうでないなら
-              numData = 3;//添字を３にする
+              numData = length - 1;//添字を写真の枚数ー１にする
             }
             console.log(numData);//デバック用
           }
