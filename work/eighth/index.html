@@ -28,6 +28,36 @@
     </div>
     <script src="../../common/js/jquery.js"></script>
     <script>
+    $(function(){
+      //指定箇所にスクロールする動作
+      var $menuBtn = $(".menu__btn"), $title = $(".title");
+      var menuBtnDeta,titleData;
+      $menuBtn.on("click", function(){//menu__btnがクリックされたら
+        menuBtnData = $(this).data("scroll-place-type");//scroll-place-typeのdetaを格納して
+        $title.each(function(){
+          titleData = $(this).data("scroll-place-type");//titleクラスの中のdetaを格納
+          if(menuBtnData === titleData){//ボタンとtitleのdataが同値なら
+            $("html,body").animate({scrollTop:$(this).offset().top});//その位置までスクロールする
+            return false;//スクロールしたらループから抜ける
+          }
+        });
+
+      });
+      //トップまでスクロールするボタンの動作
+      var sp, $stb = $(".scrollTopBtn");
+      $(window).on("scroll", function(){
+        sp = $(window).scrollTop();
+        console.log(sp);
+        if(sp > 100){
+          $stb.fadeIn();
+        }else if(sp <= 100){
+          $stb.fadeOut();
+        }
+      });
+      $stb.on("click", function(){
+      $("html,body").animate({ scrollTop:0});
+      });
+    });
       // 今回やるのはページ内スクロールです。
       // 左上にあるメニューを押して、そのタイトルと同じ位置までスクロールするアニメーションです。
       // また100pxほどスクロールすると右下にボタンがフェードインします。
