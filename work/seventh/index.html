@@ -29,6 +29,34 @@
       // 今回やるのはスライドショーです。
       // 右方向には右のボタンを押すと移動し、左方向には左のボタンを押すと移動する。また右端にいる状態で右のボタンを押すと最初の位置に戻り、 左端にいる状態で左のボタンを押すと最後の位置に移動する。data属性にprev,nextを記述してあるのでこちらを取得すると楽です。
       // 位置情報は配列に格納しておき、右のボタンをクリックするたびに配列の添字を1追加し、左のボタンをクリックすると配列の添字を1減らします。そうすることによって次の座標が取得できます。その座標にアニメーションさせるととても楽です。
+      $(function(){
+        var $slideList = $(".slider-list");
+        var $scb = $(".slider-ctrl-btn");
+        var contentsWidth = $slideList.find("li").width();//写真の幅を格納する
+        var numArray = [0,contentsWidth,contentsWidth * 2,contentsWidth * 3];//この配列にslider-listの一番左の座標をそれぞれ格納
+        var clickData, numData = 0;//data属性を格納する変数と座標データを格納する変数を用意、numDataは座標データの添字
+        $scb.on("click", function(){//スライドボタンを押した時
+          clickData = $(this).data("ctrl");//クリックしたボタンの属性を格納
+          console.log(clickData);//デバック
+          if(clickData === "next"){//deta属性がnextならば
+            if(numData < 3){//添字が２以下ならば
+              numData++;//添字を１つ増やし
+            }else{//そうでないなら
+              numData = 0;//添字を0にする
+            }
+            console.log(numData);//デバック用
+          }
+          else if(clickData === "prev"){//data属性がprevならば
+            if(numData > 0){//添字が１以上ならば
+              numData--;//添字を減らす
+            }else{//そうでないなら
+              numData = 3;//添字を３にする
+            }
+            console.log(numData);//デバック用
+          }
+          $slideList.animate({left:-numArray[numData]});//指定された座標までアニメーション
+        });
+      });
       // [使用するメソッド]
       // .animate({}) cssのプロパティを一定時間かけて変化させます。アニメーションです。
       // .data() 要素のdata属性を取得します。
