@@ -32,11 +32,11 @@
       $(function(){
         var $slideList = $(".slider-list");
         var $scb = $(".slider-ctrl-btn");
-        var contentsWidth,length = 4;//写真の幅を格納する,写真の枚数を格納する
+        var contentsWidth,length = $slideList.find("li").length;//写真の幅を格納する,写真の枚数を格納する
         var numArray = [];//この配列にslider-listの一番左の座標をそれぞれ格納
         var clickData, numData = 0;//data属性を格納する変数と座標データを格納する変数を用意、numDataは座標データの添字
+        numArray[0] = 0;//添字０は一番左端なので0を代入
         for(var i=0; i<length; i++){
-          numArray[0] = 0;//添字０は一番左端なので0を代入
           contentsWidth = $slideList.find("li").eq(i).width();//写真の幅を取得
           numArray[i+1] = numArray[i] + contentsWidth;//一つ前の写真の幅を足す事で座標となる。
         }
@@ -44,7 +44,7 @@
           clickData = $(this).data("ctrl");//クリックしたボタンの属性を格納
           console.log(clickData);//デバック
           if(clickData === "next"){//deta属性がnextならば
-            if(numData <= length){//添字が写真の枚数以下ならば
+            if(numData < length-1){//添字が写真の枚数以下ならば
               numData++;//添字を１つ増やし
             }else{//そうでないなら
               numData = 0;//添字を0にする
