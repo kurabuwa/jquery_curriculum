@@ -38,6 +38,7 @@
           titleData = $(this).data("scroll-place-type");//titleクラスの中のdetaを格納
           if(menuBtnData === titleData){//ボタンとtitleのdataが同値なら
             $("html,body").animate({scrollTop:$(this).offset().top});//その位置までスクロールする
+            //html,bodyはブラウザ毎に動作する要素が違うため両方に指定する必要がある。
             return false;//スクロールしたらループから抜ける
           }
         });

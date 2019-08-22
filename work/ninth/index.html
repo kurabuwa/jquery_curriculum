@@ -18,6 +18,7 @@
     $(function(){
       // $.each(color, function(index){
         var $colorList = $(".colorList");
+        var temp = "";
         $.ajax({//ファイルの読み込み
           url:'./data.json'
         })
@@ -26,10 +27,11 @@
           $.each(data.colorsArray, function(index){//colorsArrayの長さ分繰り返し
             console.log(data.colorsArray[1].colorName);//デバック用
             //要素の追加
-            $colorList.append('<li class="colorList__item"></li>');
-            $colorList.find("li").eq(index).html('<p class="colorList__title" style="background-color:' + data.colorsArray[index].hexValue + ' ;">' +data.colorsArray[index].colorName+ '</p>');
-          });
-        });
+            temp = temp + '<li class="colorList__item"><p class="colorList__title" style="background-color:' + data.colorsArray[index].hexValue + ' ;">' +data.colorsArray[index].colorName+ '</p></li>'
+            // $colorList.find("li").eq(index).html('<p class="colorList__title" style="background-color:' + data.colorsArray[index].hexValue + ' ;">' +data.colorsArray[index].colorName+ '</p>');
+          });//each
+          $colorList.html(temp);
+        });//done
       // })
       });
       // [使うメソッド]

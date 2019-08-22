@@ -35,10 +35,13 @@
         var contentsWidth,length = $slideList.find("li").length;//写真の幅を格納する,写真の枚数を格納する
         var numArray = [];//この配列にslider-listの一番左の座標をそれぞれ格納
         var clickData, numData = 0;//data属性を格納する変数と座標データを格納する変数を用意、numDataは座標データの添字
-        numArray[0] = 0;//添字０は一番左端なので0を代入
         for(var i=0; i<length; i++){
-          contentsWidth = $slideList.find("li").eq(i).width();//写真の幅を取得
-          numArray[i+1] = numArray[i] + contentsWidth;//一つ前の写真の幅を足す事で座標となる。
+          if(i === 0){
+            numArray[0] = 0;//添字０は一番左端なので0を代入
+          }else{
+            contentsWidth = $slideList.find("li").eq(i-1).width();//写真の幅を取得
+            numArray[i] = numArray[i-1] + contentsWidth;//一つ前の写真の幅を足す事で座標となる。
+          }
         }
         $scb.on("click", function(){//スライドボタンを押した時
           clickData = $(this).data("ctrl");//クリックしたボタンの属性を格納

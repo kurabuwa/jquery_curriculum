@@ -40,21 +40,21 @@
             // 「区分:サービス固有パラメーター」を確認して、必要な情報をdata内に入れましょう。
             applicationId: '1019399324990976605', // (今回はこのIDを使用してください)
             booksGenreId: '001',
-            hits: '20',
-            keyword: key
+            hits: '20',//表示は２０
+            keyword: key//検索ワード
           },
         }).done(function(data) {
           // この中にデータ取得後の動きを記述していきます。
+          temp = "";
           console.log(data);
           if(data.count != 0){
-            $lists.html("");
             $.each(data.Items, function(i, items){
-              temp = $(`<li class='lists__item'><div class='lists__item__inner'><a href='${items.Item.itemUrl}' class='lists__item__link' target='_blank'><img src='${items.Item.largeImageUrl}' class='lists__item__img' alt=''><p class='lists__item__detail'>作品名：${items.Item.title}</p><p class='lists__item__detail'>作者　：${items.Item.author}</p><p class='lists__item__detail'>出版社：${items.Item.publisherName}</p></a></div></li>`);
-              $lists.append(temp);
+              temp = temp + `<li class='lists__item'><div class='lists__item__inner'><a href='${items.Item.itemUrl}' class='lists__item__link' target='_blank'><img src='${items.Item.largeImageUrl}' class='lists__item__img' alt=''><p class='lists__item__detail'>作品名：${items.Item.title}</p><p class='lists__item__detail'>作者　：${items.Item.author}</p><p class='lists__item__detail'>出版社：${items.Item.publisherName}</p></a></div></li>`;
             });
           }else{
-            $lists.html("<div class='message'>検索結果が見つかりませんでした。<br>別のキーワードで検索してください。</div>");
+            temp = "<div class='message'>検索結果が見つかりませんでした。<br>別のキーワードで検索してください。</div>";
           }
+          $lists.html(temp);
         }).fail(function(){
           $lists.html("<div class='message'>通信に失敗しました。以下の可能性があります。<ul><li>検索ワードの指定がない</li><li>ネットワークが切れている</li><li>検索ワードが半角英数字１文字</li><li>「検索する」の連打</li></ul></div>");
         });
@@ -63,6 +63,10 @@
         ajax();
       });
     })
+      //httpメソッドのGETとPOSTの説明
+        //GETはサーバから情報を取得してくる時に使用し、この時urlに付加してリクエストを送る、POSTはサーバに情報を登録する時に使用し、bodyに付加してリクエストを送る
+      //APIの説明
+        //APIはApplication Programming Interfaceの略で異なるソフトウェア同士で同じ機能を実装することができるようになる機能である。
       // 楽天ブックスの総合検索APIを使って製作してください。
       // answerの挙動を良く見てね！
       //
