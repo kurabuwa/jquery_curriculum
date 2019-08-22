@@ -26,6 +26,33 @@
     </div>
     <script src="../../common/js/jquery.js"></script>
     <script>
+    $(function(){
+      var key, temp;
+      var $searchWord = $("#js-search-word"), $searchBtn = $("#js-search-button"), $lists = $(".lists");
+      $searchBtn.on("click", function(){
+        key = $searchWord.val();
+        $.ajax({
+          url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
+          type: 'GET',
+          datatype: 'json',
+          data: {
+            // 「区分:サービス固有パラメーター」を確認して、必要な情報をdata内に入れましょう。
+            applicationId: '1019399324990976605', // (今回はこのIDを使用してください)
+            booksGenreId: '001',
+            hits: '20',
+            keyword: key
+          },
+        }).done(function(data) {
+          // この中にデータ取得後の動きを記述していきます。
+          console.log(data.Items[2].Item.title);
+          console.log(data);
+          $.each(data.Items, function(i, items){
+            temp = $(`<li class='lists__item'><div class='lists__item__inner'><a href='${items.Item.itemUrl}' class='lists__item__link' target='_blank'><img src='${items.Item.largeImageUrl}' class='lists__item__img' alt=''><p class='lists__item__detail'>作品名：${items.Item.title}</p><p class='lists__item__detail'>作者　：${items.Item.author}</p><p class='lists__item__detail'>出版社：${items.Item.publisherName}</p></a></div></li>`);
+            $lists.append(temp);
+          })
+        });
+      });
+    })
       // 楽天ブックスの総合検索APIを使って製作してください。
       // answerの挙動を良く見てね！
       //
