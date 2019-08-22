@@ -26,11 +26,12 @@
           $.each(data.colorsArray, function(index){//colorsArrayの長さ分繰り返し
             console.log(data.colorsArray[1].colorName);//デバック用
             //要素の追加
-            $colorList.append('<li class="colorList__item">' + '<p class="colorList__title" style="background-color:' + data.colorsArray[index].hexValue + ' ;">' +data.colorsArray[index].colorName+ '</p>' + '</li>');
+            $colorList.append('<li class="colorList__item"></li>');
+            $colorList.find("li").eq(index).html('<p class="colorList__title" style="background-color:' + data.colorsArray[index].hexValue + ' ;">' +data.colorsArray[index].colorName+ '</p>');
           });
         });
       // })
-    });
+      });
       // [使うメソッド]
       // $.each(配列, function functionName() {}) 配列に対しての繰り返し処理
       // .html() 要素の中に引数を代入する。（まずは.append() でやってみましょう）
