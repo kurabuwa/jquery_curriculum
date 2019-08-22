@@ -27,11 +27,21 @@
     <script src="../../common/js/jquery.js"></script>
     <script>
     $(function(){
-      var key, temp;
+      var key, keyLog, temp, pageNum, tempLog, flag;//key...検索ワード、keyLog...前回の検索ワード、temp...domを作るための変数、tempLog...同じ検索ワードの時一つ前のDOMを保存、pageNum...ページ番号、flag...検索結果表示時の状態管理
       var $searchWord = $("#js-search-word"), $searchBtn = $("#js-search-button"), $lists = $(".lists");
 
-      function ajax(){//Ajaxについての関数
-        key = $searchWord.val();
+      $searchBtn.on("click", function(){//検索ボタンが押された時の動作
+        rakutenApi();//通信する関数を呼び出す
+      });//on
+
+      function rakutenApi(){//楽天ブックスのAPIについての関数
+        keyLog = key;//前回の検索時のワードを保存
+        key = $searchWord.val();//検索ワードを保存
+        if(keyLog === key){//前回の検索ワードと同じなら
+          pageNum += 1;//ページを増やし
+        }else{//違うなら
+          pageNum = 1;//ページを１に戻す
+        }
         $.ajax({
           url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
           type: 'GET',
@@ -41,34 +51,54 @@
             applicationId: '1019399324990976605', // (今回はこのIDを使用してください)
             booksGenreId: '001',
             hits: '20',//表示は２０
-            keyword: key//検索ワード
+            keyword: key,//検索ワード
+            page: pageNum//ページ番号
           },
         }).done(function(data) {
           // この中にデータ取得後の動きを記述していきます。
-          temp = "";
-          console.log(data);
-          if(data.count != 0){
-            $.each(data.Items, function(i, items){
-              temp = temp + `<li class='lists__item'><div class='lists__item__inner'><a href='${items.Item.itemUrl}' class='lists__item__link' target='_blank'><img src='${items.Item.largeImageUrl}' class='lists__item__img' alt=''><p class='lists__item__detail'>作品名：${items.Item.title}</p><p class='lists__item__detail'>作者　：${items.Item.author}</p><p class='lists__item__detail'>出版社：${items.Item.publisherName}</p></a></div></li>`;
-            });
-          }else{
-            temp = "<div class='message'>検索結果が見つかりませんでした。<br>別のキーワードで検索してください。</div>";
-          }
-          $lists.html(temp);
-        }).fail(function(){
-          $lists.html("<div class='message'>通信に失敗しました。以下の可能性があります。<ul><li>検索ワードの指定がない</li><li>ネットワークが切れている</li><li>検索ワードが半角英数字１文字</li><li>「検索する」の連打</li></ul></div>");
-        });
-      }
+          addDoneDom(data);
+        }).fail(function(jqXHR, textStatus, errorThrown){
+          addFailDom(jqXHR, textStatus, errorThrown);
+        });//fail
+      }//rakutenApi
 
+      function addDoneDom(data){//通信に成功した時の関数
+        if(keyLog === key){//前回と検索ワードが同じなら
+          tempLog = temp + tempLog;//tempLogの前にtempを繋げる
+        }else{//違うなら
+          tempLog = "";//tempLogを初期化
+          flag = 0;//状態を管理するflagで0は初期値
+        }
+        temp = "";//tempは毎回初期化
+        if(data.count != 0){
+          $.each(data.Items, function(i, items){
+            temp += `<li class='lists__item'><div class='lists__item__inner'><a href='${items.Item.itemUrl}' class='lists__item__link' target='_blank'><img src='${items.Item.largeImageUrl}' class='lists__item__img' alt=''><p class='lists__item__detail'>作品名：${items.Item.title}</p><p class='lists__item__detail'>作者　：${items.Item.author}</p><p class='lists__item__detail'>出版社：${items.Item.publisherName}</p></a></div></li>`;
+          });//each
+          flag = 1;//検索結果があるならflagは１
+        }else if(flag === 1){//もし、flagが１のままdata.countが0になったら
+          temp = "<div class='message'>検索結果は以上です。<br>別のキーワードで検索してください。</div>"
+          flag = 2;//検索結果がこれ以上ない場合flagは２とする
+        }else if(flag === 0){//flagが０のままdata.countが0ならば
+          temp = "<div class='message'>検索結果が見つかりませんでした。<br>別のキーワードで検索してください。</div>";
+          flag = 3;//検索結果が見つからない場合flagは３とする
+        }//else
+        $lists.html(temp + tempLog);
+      }//addDoneDom
 
-      $searchBtn.on("click", function(){
-        ajax();//通信する関数を呼び出す
-      });
-    })
+      function addFailDom(jqXHR, textStatus, errorThrown){//通信に失敗した時の関数
+        tempLog = "";
+          temp = `<div class='message'>${jqXHR.responseJSON.error}<br>${jqXHR.responseJSON.error_description}</div>`
+        $lists.html(temp);
+      };//addFailDom
+    });//ready
       //httpメソッドのGETとPOSTの説明
-        //GETはサーバから情報を取得してくる時に使用し、この時urlに付加してリクエストを送る、POSTはサーバに情報を登録する時に使用し、bodyに付加してリクエストを送る
+        //GETはサーバから情報を取得してくる時に使用し、この時urlに付加してリクエストを送る、POSTはサーバに情報を登録する時に使用し、この時bodyに付加してリクエストを送る
       //APIの説明
         //APIはApplication Programming Interfaceの略で異なるソフトウェア同士で同じ機能を実装することができるようになる機能である。
+
+
+
+
       // 楽天ブックスの総合検索APIを使って製作してください。
       // answerの挙動を良く見てね！
       //
