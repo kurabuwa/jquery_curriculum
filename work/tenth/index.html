@@ -87,7 +87,12 @@
 
       function addFailDom(jqXHR, textStatus, errorThrown){//通信に失敗した時の関数
         tempLog = "";
+        console.log(jqXHR.status)
+        if(jqXHR.status === 0){
+          temp = `<div class='message'>ネットワークに接続してください</div>`
+        }else{
           temp = `<div class='message'>${jqXHR.responseJSON.error}<br>${jqXHR.responseJSON.error_description}</div>`//通信失敗時の表示
+        }
         $lists.html(temp);
       };//addFailDom
     });//ready
